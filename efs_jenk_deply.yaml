@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: dev-ns
+spec:
+  replicas: 1
+  selector:
+   matchLabels:
+     app: jenkins
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: jenkins
+      labels:
+        app: jenkins
+    spec:
+      volumes:
+      - name: "jenkins-data"
+        hostPath:
+          path: "/opt/myefs"
+      containers:
+      - name: jenkins
+        image: deepakdev123/my_jenkins_repo:1.0
+        volumeMounts:
+        - mountPath: "/var/jenkins_home"
+          name: "jenkins-data"

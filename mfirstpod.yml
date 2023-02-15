@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-nginx
+  namespace: dev-ns
+  labels:
+    app: tomcat
+spec:
+  volumes:
+  - name: "jenkins-data"
+    hostPath:
+       path: "/opt/myefs"
+  containers:
+  - name: jenkins
+    image: deepakdev123/my_jenkins_repo:1.0
+    volumeMounts:
+    - mountPath: "/var/jenkins_home"
+      name: "jenkins-data"
